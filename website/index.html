@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">A Message for You</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Pacifico&display=swap');
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background-color: #fff0f3;
+            font-family: 'Quicksand', sans-serif; overflow: hidden;
+            color: #4a4a4a;
+        }
+
+        /* Halaman Pembuka */
+        #landingPage {
+            text-align: center;
+            z-index: 20;
+            transition: opacity 0.8s ease;
+        }
+
+        #landingPage h2 {
+            font-size: 1.5em;
+            color: #ff4d6d;
+            margin-bottom: 20px;
+        }
+
+        .heart-btn {
+            font-size: 80px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.4));
+            transition: transform 0.3s;
+        }
+
+        .heart-btn:hover { transform: scale(1.2); }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Kontainer Utama Pesan */
+        .main-container {
+            display: none; /* Sembunyi di awal */
+            text-align: center; background: white;
+            padding: 40px 30px; border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2);
+            width: 90%; max-width: 450px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        h1 {
+            color: #ff4d6d; font-family: 'Pacifico', cursive;
+            font-size: 2.2em; margin-top: 0;
+        }
+
+        /* Styling Slide Kata-kata */
+        .slide-wrapper {
+            min-height: 150px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 20px 0;
+        }
+
+        .message-slide {
+            display: none; /* Sembunyi semua */
+            font-size: 1.1em; line-height: 1.7;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight { color: #ff4d6d; font-weight: bold; }
+
+        /* Animasi Couple */
+        .couple-box {
+            font-size: 50px; margin-top: 20px;
+            display: flex; justify-content: center; gap: 20px;
+        }
+        .char { animation: bounce 2s infinite ease-in-out; }
+        .char2 { animation: bounce 2s infinite ease-in-out 0.5s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Background Hati */
+        .bg-heart {
+            position: fixed; top: -10%; font-size: 20px;
+            animation: fall linear forwards; pointer-events: none;
+            z-index: 1; opacity: 0.6;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="landingPage">
+        <h2 id="initialText">Click button to see my feelings for you</h2>
+        <button class="heart-btn" onclick="startSurprise()">❤️</button>
+    </div>
+
+    <div class="main-container" id="mainBox">
+        <h1 id="greeting">Hai! ❤️</h1>
+        
+        <div class="slide-wrapper">
+            <div class="message-slide" id="s1">
+                "✨ <span class="sender-tag"></span> cinta <span class="receiver-tag"></span> dan semuanya tentang <span class="receiver-tag"></span>. <span class="sender-tag"></span> udah jatuh cinta padamu dan <span class="sender-tag"></span> gak bisa bangun lagi."
+            </div>
+            <div class="message-slide" id="s2">
+                "✨ <span class="sender-tag"></span> sayang banget sama <span class="receiver-tag"></span> dan <span class="sender-tag"></span> berencana buat <span class="highlight">gangguin <span class="receiver-tag"></span> seumur hidup!</span>"
+            </div>
+            <div class="message-slide" id="s3">
+                "✨ Ayo kita menua dan keriputan bareng-bareng. <span class="sender-tag"></span> sayang <span class="receiver-tag"></span> sampai ajal memisahkan kita."
+            </div>
+            <div class="message-slide" id="s4">
+                "I love you and everything about you! <br> ❤️❤️❤️"
+            </div>
+        </div>
+
+        <div class="couple-box">
+            <span class="char">👦🏻</span>
+            <span class="char">👧🏻</span>
+        </div>
+    </div>
+
+    <script>
+        // Ambil Nama dari URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const pengirim = urlParams.get('dari') || 'Aku';
+        const penerima = urlParams.get('untuk') || 'Kamu';
+
+        document.getElementById('pageTitle').innerText = `For ${penerima} ❤️`;
+
+        // Masukkan nama ke elemen
+        document.querySelectorAll('.sender-tag').forEach(el => el.innerText = pengirim);
+        document.querySelectorAll('.receiver-tag').forEach(el => el.innerText = penerima);
+
+        function startSurprise() {
+            // Sembunyikan Landing
+            document.getElementById('landingPage').style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('landingPage').style.display = 'none';
+                
+                // Tampilkan Container Utama
+                const mainBox = document.getElementById('mainBox');
+                mainBox.style.display = 'block';
+                setTimeout(() => mainBox.style.opacity = '1', 50);
+
+                document.getElementById('greeting').innerText = `Hai ${penerima}! ❤️`;
+                
+                startSlides();
+                startHeartRain();
+            }, 800);
+        }
+
+        let currentSlide = 1;
+        const totalSlides = 4;
+
+        function startSlides() {
+            showSlide(currentSlide);
+            
+            const interval = setInterval(() => {
+                currentSlide++;
+                if (currentSlide <= totalSlides) {
+                    showSlide(currentSlide);
+                } else {
+                    clearInterval(interval);
+                }
+            }, 5000); // Ganti slide setiap 5 detik
+        }
+
+        function showSlide(n) {
+            // Sembunyikan semua slide
+            document.querySelectorAll('.message-slide').forEach(s => s.style.display = 'none');
+            // Tampilkan slide yang dituju
+            const activeSlide = document.getElementById('s' + n);
+            if (activeSlide) activeSlide.style.display = 'block';
+        }
+
+        function startHeartRain() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('bg-heart');
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
